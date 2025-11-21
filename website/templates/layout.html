@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      type="image/png"
+      sizes="96x96"
+      rel="icon"
+      href="{{ url_for('static', filename='../static/images/favicon.png') }}"
+    />
+    <title>{{ title }} - ShopManager HUB</title>
+    <link
+      href="{{ url_for('static', filename='src/output.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header
+      class="bg-gray-700/90 p-4 text-white flex justify-between items-center"
+    >
+      <nav class="w-full flex justify-between items-center p-4">
+        <div class="flex items-center space-x-2">
+          <a
+            href="{{ url_for('routes.products') }}"
+            class="flex items-center space-x-2"
+          >
+            <img
+              src="{{ url_for('static', filename='images/favicon.png') }}"
+              id="logo-img"
+              class="h-8 w-8"
+              alt="Shop Manager Logo"
+            />
+            <span id="logo-text" class="font-extrabold text-xl"
+              >Shop <br /><span class="text-amber-500/95">Manager</span></span
+            >
+          </a>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          {% if current_user.is_authenticated %}
+          <a
+            href="{{ url_for('routes.products') }}"
+            id="products"
+            class="hover:underline hover:font-bold"
+            >Products</a
+          >
+          <a
+            href="{{ url_for('auth.signout') }}"
+            id="sign-out"
+            class="hover:underline hover:font-bold hover:text-red-500 whitespace-nowrap"
+            >Sign Out</a
+          >
+          {% else %}
+          <a
+            href="{{ url_for('auth.signup') }}"
+            id="sign-up"
+            class="hover:underline hover:font-bold"
+            >Sign Up</a
+          >
+          <a
+            href="{{ url_for('auth.signin') }}"
+            id="sign-in"
+            class="hover:underline hover:font-bold"
+            >Sign In</a
+          >
+          {% endif %}
+        </div>
+      </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=True) %} {% if
+    messages %}
+    <div class="max-w-4xl mx-auto mt-4">
+      {% for category, message in messages %} {% if category == 'error' %}
+      <div
+        class="bg-red-500 text-amber-50 p-4 mb-2 rounded-md flex justify-between items-center"
+      >
+        <span>{{ message }}</span>
+        <button
+          type="button"
+          class="hover:underline"
+          onclick="this.parentElement.style.display='none'"
+        >
+          x
+        </button>
+      </div>
+      {% else %}
+      <div
+        class="bg-green-500 text-amber-50 p-4 mb-2 rounded-md flex justify-between items-center"
+      >
+        <span>{{ message }}</span>
+        <button
+          type="button"
+          class="hover:underline"
+          onclick="this.parentElement.style.display='none'"
+        >
+          x
+        </button>
+      </div>
+      {% endif %} {% endfor %}
+    </div>
+    {% endif %} {% endwith %} {% block content%}{% endblock %}
+  </body>
+</html>

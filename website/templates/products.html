@@ -1,0 +1,57 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold mb-4">Products in Shop</h1>
+    <a
+      href="{{url_for('routes.add_product')}}"
+      class="bg-gray-700/90 text-white px-3 py-2 rounded hover:bg-amber-500/95 transition-colors"
+      >Add New</a
+    >
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full border border-gray-200 bg-white rounded-lg">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left whitespace-nowrap">Name</th>
+          <th class="px-4 py-2 text-left whitespace-nowrap">Category</th>
+          <th class="px-4 py-2 text-left whitespace-nowrap">Quantity</th>
+          <th class="px-4 py-2 text-left whitespace-nowrap">Price</th>
+          <th class="px-4 py-2 text-left whitespace-nowrap">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for product in products %}
+        <tr class="border-b border-1-gray-200 hover:bg-gray-50">
+          <td class="px-4 py-2 whitespace-nowrap">{{ product.name }}</td>
+          <td class="px-4 py-2 whitespace-nowrap">{{ product.category }}</td>
+          <td class="px-4 py-2 whitespace-nowrap">{{ product.quantity }}</td>
+          <td class="px-4 py-2 whitespace-nowrap">
+            {{product.currency}} {{ product.price }}
+          </td>
+          <td class="px-4 py-2 whitespace-nowrap">
+            <a
+              href="{{url_for('routes.edit_product', id=product.id)}}"
+              class="text-blue-600"
+              >Edit</a
+            >
+            <a
+              href="{{url_for('routes.delete_product', id=product.id)}}"
+              class="text-red-600 ml-3"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if products|length == 0 %}
+    <p class="text-center text-gray-500 p-2">
+      No products yet, kindly add product.
+    </p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
